@@ -1,0 +1,93 @@
+body {
+  overflow-x: hidden;
+}
+
+#wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar-heading {
+  padding: 1rem;
+  font-size: 1.25rem;
+  background-color: #e9ecef;
+  border-bottom: 1px solid #dee2e6;
+}
+
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+  transition: all 0.3s ease;
+}
+
+#sidebar-wrapper.collapsed {
+  margin-left: -250px;
+}
+
+#page-content-wrapper {
+  flex: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.section-header {
+  cursor: pointer;
+}
+
+.format-icon {
+  font-size: 1.2rem;
+  color: gray;
+}
+.format-icon.text-primary {
+  color: #0d6efd;
+}
+
+#skillsContainer input[type="text"] {
+  margin-bottom: 0.5rem;
+}
+
+.sortable-skills-group .skill-group-item {
+  cursor: grab;
+}
+
+.skill-group > div.d-flex {
+  border-bottom: 2px solid #007bff; /* blue bottom border for header area */
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.skill-group > div.d-flex input[type="text"] {
+  font-weight: 700;         /* bold */
+  font-size: 1.2rem;        /* larger font */
+  color: #003366;           /* dark blue */
+  background-color: #e9f0ff; /* very light blue background */
+  border-radius: 5px;
+  padding: 8px 12px;
+}
+
+.skillFields .input-group {
+  gap: 8px;
+}
+
+.skillFields input[type="text"] {
+  font-size: 1rem;           /* smaller font */
+  font-weight: 400;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.skillFields button {
+  padding: 0 10px;
+  font-size: 1.1rem;
+}
+
+.skill-group button.btn-outline-danger {
+  height: 38px; /* match input height */
+  width: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  margin-left: 4px;
+}

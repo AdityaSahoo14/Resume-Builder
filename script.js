@@ -208,4 +208,46 @@ document.addEventListener("DOMContentLoaded", () => {
         handle: ".skill-group",
         ghostClass: "bg-light",
     });
+
+    let educationIndex = 0;
+
+    function addEducationEntry() {
+        const container = document.getElementById("educationContainer");
+
+        const educationDiv = document.createElement("div");
+        educationDiv.className = "border p-3 my-2 rounded";
+
+        educationDiv.innerHTML = `
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Institution Name" name="institution[]" required>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" name="degree[]" required>
+                        <option value="">Select Degree</option>
+                        <option value="Bachelors">Bachelors</option>
+                        <option value="Masters">Masters</option>
+                        <option value="School">School</option>
+                        <option value="PHD">PHD</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <input type="month" class="form-control" name="graduation_date[]" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="CGPA / Percentage" name="cgpa[]" required>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(educationDiv);
+        educationIndex++;
+    }
+    
+    // Initial Education Entry
+    addEducationEntry();
+
+    // Button to add more
+    document.getElementById("addEducationBtn").addEventListener("click", addEducationEntry);
 });

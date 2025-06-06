@@ -34,6 +34,10 @@
                         Experience
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
+                    <a href="#educationSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
+                        Education
+                        <i class="fa-solid fa-caret-down section-icon"></i>
+                    </a>
                 </div>
             </div>
 
@@ -106,6 +110,18 @@
                     <div id="experienceContainer"></div>
                     <button type="button" class="btn btn-outline-primary mt-2" id="addExperienceBtn">Add Experience</button>
                 </div>
+                <!-- Education Section -->
+                <div class="section-header d-flex justify-content-between align-items-center mt-4"
+                    data-bs-toggle="collapse" data-bs-target="#educationSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
+                    <h4 class="mb-0">Education</h4>
+                    <i class="fa-solid fa-caret-down section-icon"></i>
+                </div>
+
+                <div class="collapse show mt-4" id="educationSection">
+                    <div id="educationContainer"></div>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="addEducationBtn">Add Education</button>
+                </div>
+
 
                 <div class="mt-4">
                     <button class="btn btn-success">Generate Resume</button>

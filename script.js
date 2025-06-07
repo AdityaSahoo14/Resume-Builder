@@ -252,7 +252,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("addEducationBtn").addEventListener("click", addEducationEntry);
 
     let projectIndex = 0;
-
     function addProjectEntry() {
         const container = document.getElementById("projectsContainer");
 
@@ -352,5 +351,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("addProjectBtn").addEventListener("click", addProjectEntry);
     document.getElementById("addAchievementBtn").addEventListener("click", addAchievementEntry);
-    
 });

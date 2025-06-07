@@ -15,27 +15,45 @@
             <div class="bg-light border-end" id="sidebar-wrapper">
                 <div class="sidebar-heading">Resume Sections</div>
                 <div class="list-group list-group-flush">
+                    <!-- Personal Details -->
                     <a href="#personalDetails" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Personal Details
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
-
+                    
+                    <!-- Profile -->
                     <a href="#profileSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Profile
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
-
+                    
+                    <!-- Skill -->
                     <a href="#skillsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Skills
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
-
+                    
+                    <!-- Experience -->
                     <a href="#experienceSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Experience
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
+
+                    <!-- Education -->
                     <a href="#educationSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Education
+                        <i class="fa-solid fa-caret-down section-icon"></i>
+                    </a>
+
+                    <!-- Projects -->
+                    <a href="#projectsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
+                        Projects
+                        <i class="fa-solid fa-caret-down section-icon"></i>
+                    </a>
+
+                    <!-- Achievements -->
+                    <a href="#achievementsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
+                        Achievements
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
                 </div>
@@ -121,7 +139,30 @@
                     <div id="educationContainer"></div>
                     <button type="button" class="btn btn-outline-primary mt-2" id="addEducationBtn">Add Education</button>
                 </div>
+                                
+                <!-- Projects Section -->
+                <div class="section-header d-flex justify-content-between align-items-center mt-4"
+                    data-bs-toggle="collapse" data-bs-target="#projectsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
+                    <h4 class="mb-0">Projects</h4>
+                    <i class="fa-solid fa-caret-down section-icon"></i>
+                </div>
 
+                <div class="collapse show mt-4" id="projectsSection">
+                    <div id="projectsContainer"></div>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="addProjectBtn">Add Project</button>
+                </div>
+
+                <!-- Achievements Section -->
+                <div class="section-header d-flex justify-content-between align-items-center mt-4"
+                    data-bs-toggle="collapse" data-bs-target="#achievementsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
+                    <h4 class="mb-0">Achievements</h4>
+                    <i class="fa-solid fa-caret-down section-icon"></i>
+                </div>
+
+                <div class="collapse show mt-4" id="achievementsSection">
+                    <div id="achievementsContainer"></div>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="addAchievementBtn">Add Achievement</button>
+                </div>
 
                 <div class="mt-4">
                     <button class="btn btn-success">Generate Resume</button>

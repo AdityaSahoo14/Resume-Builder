@@ -250,4 +250,107 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Button to add more
     document.getElementById("addEducationBtn").addEventListener("click", addEducationEntry);
+
+    let projectIndex = 0;
+
+    function addProjectEntry() {
+        const container = document.getElementById("projectsContainer");
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "border p-3 my-2 rounded";
+
+        wrapper.innerHTML = `
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="project_title[]" placeholder="Project Title" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="month" class="form-control" name="project_year[]" required>
+                </div>
+                <div class="col-12">
+                    <div id="project-editor-${projectIndex}" style="height: 150px;"></div>
+                    <input type="hidden" name="project_description[]">
+                </div>
+                <div class="col-12">
+                    <input type="text" class="form-control" name="project_technologies[]" placeholder="Technologies Used (e.g., Python, React)">
+                </div>
+            </div>
+        `;
+
+        container.appendChild(wrapper);
+
+        const quill = new Quill(`#project-editor-${projectIndex}`, {
+            theme: 'snow',
+            placeholder: 'Project description...',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'bullet' }, { 'list': 'ordered' }],
+                    ['clean']
+                ]
+            }
+        });
+
+        const descInput = wrapper.querySelector("input[name='project_description[]']");
+        quill.on('text-change', () => {
+            descInput.value = quill.root.innerHTML;
+        });
+
+        projectIndex++;
+    }
+
+    let achievementIndex = 0;
+
+    function addAchievementEntry() {
+        const container = document.getElementById("achievementsContainer");
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "border p-3 my-2 rounded";
+
+        wrapper.innerHTML = `
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="achievement_title[]" placeholder="Achievement Title" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="month" class="form-control" name="achievement_year[]" required>
+                </div>
+                <div class="col-12">
+                    <div id="achievement-editor-${achievementIndex}" style="height: 150px;"></div>
+                    <input type="hidden" name="achievement_description[]">
+                </div>
+                <div class="col-12">
+                    <input type="text" class="form-control" name="achievement_context[]" placeholder="Context (e.g., Competition, Award)">
+                </div>
+            </div>
+        `;
+
+        container.appendChild(wrapper);
+
+        const quill = new Quill(`#achievement-editor-${achievementIndex}`, {
+            theme: 'snow',
+            placeholder: 'Achievement details...',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'bullet' }, { 'list': 'ordered' }],
+                    ['clean']
+                ]
+            }
+        });
+
+        const descInput = wrapper.querySelector("input[name='achievement_description[]']");
+        quill.on('text-change', () => {
+            descInput.value = quill.root.innerHTML;
+        });
+
+        achievementIndex++;
+    }
+    // Initialize first entries
+    addProjectEntry();
+    addAchievementEntry();
+
+    document.getElementById("addProjectBtn").addEventListener("click", addProjectEntry);
+    document.getElementById("addAchievementBtn").addEventListener("click", addAchievementEntry);
+    
 });

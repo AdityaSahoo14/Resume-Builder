@@ -79,58 +79,58 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("addExperienceBtn").addEventListener("click", addExperienceEntry);
 
     document.getElementById("toggleSidebar").addEventListener("click", () => {
-    const sidebar = document.getElementById("sidebar-wrapper");
-    sidebar.classList.toggle("collapsed");
+        const sidebar = document.getElementById("sidebar-wrapper");
+        sidebar.classList.toggle("collapsed");
     });
 
     document.querySelectorAll('.list-group-item').forEach(link => {
-    const targetId = link.getAttribute('href');
-    const collapseElement = document.querySelector(targetId);
-    const icon = link.querySelector('.section-icon');
+        const targetId = link.getAttribute('href');
+        const collapseElement = document.querySelector(targetId);
+        const icon = link.querySelector('.section-icon');
 
-    const updateIcon = () => {
-        if (collapseElement.classList.contains('show')) {
-        icon.classList.remove('fa-caret-right');
-        icon.classList.add('fa-caret-down');
-        } else {
-        icon.classList.remove('fa-caret-down');
-        icon.classList.add('fa-caret-right');
-        }
-    };
+        const updateIcon = () => {
+            if (collapseElement.classList.contains('show')) {
+            icon.classList.remove('fa-caret-right');
+            icon.classList.add('fa-caret-down');
+            } else {
+            icon.classList.remove('fa-caret-down');
+            icon.classList.add('fa-caret-right');
+            }
+        };
 
-    // Initialize on page load
-    updateIcon();
+        // Initialize on page load
+        updateIcon();
 
-    // Listen for collapse toggle
-    collapseElement.addEventListener('shown.bs.collapse', updateIcon);
-    collapseElement.addEventListener('hidden.bs.collapse', updateIcon);
+        // Listen for collapse toggle
+        collapseElement.addEventListener('shown.bs.collapse', updateIcon);
+        collapseElement.addEventListener('hidden.bs.collapse', updateIcon);
     });
 
     document.querySelectorAll('.section-header').forEach(header => {
-    const targetId = header.getAttribute('data-bs-target');
-    const collapseElement = document.querySelector(targetId);
-    const icon = header.querySelector('.section-icon');
+        const targetId = header.getAttribute('data-bs-target');
+        const collapseElement = document.querySelector(targetId);
+        const icon = header.querySelector('.section-icon');
 
-    if (!collapseElement || !icon) return;
+        if (!collapseElement || !icon) return;
 
-    const updateIcon = () => {
-        if (collapseElement.classList.contains('show')) {
-        icon.classList.remove('fa-caret-right');
-        icon.classList.add('fa-caret-down');
-        header.setAttribute('aria-expanded', 'true');
-        } else {
-        icon.classList.remove('fa-caret-down');
-        icon.classList.add('fa-caret-right');
-        header.setAttribute('aria-expanded', 'false');
-        }
-    };
+        const updateIcon = () => {
+            if (collapseElement.classList.contains('show')) {
+            icon.classList.remove('fa-caret-right');
+            icon.classList.add('fa-caret-down');
+            header.setAttribute('aria-expanded', 'true');
+            } else {
+            icon.classList.remove('fa-caret-down');
+            icon.classList.add('fa-caret-right');
+            header.setAttribute('aria-expanded', 'false');
+            }
+        };
 
-    // Initialize icon on page load
-    updateIcon();
+        // Initialize icon on page load
+        updateIcon();
 
-    // Update icon on collapse events
-    collapseElement.addEventListener('shown.bs.collapse', updateIcon);
-    collapseElement.addEventListener('hidden.bs.collapse', updateIcon);
+        // Update icon on collapse events
+        collapseElement.addEventListener('shown.bs.collapse', updateIcon);
+        collapseElement.addEventListener('hidden.bs.collapse', updateIcon);
     });
 
     const skillsContainer = document.getElementById("skillsContainer");
@@ -345,10 +345,221 @@ document.addEventListener("DOMContentLoaded", () => {
 
         achievementIndex++;
     }
+
     // Initialize first entries
     addProjectEntry();
     addAchievementEntry();
 
     document.getElementById("addProjectBtn").addEventListener("click", addProjectEntry);
     document.getElementById("addAchievementBtn").addEventListener("click", addAchievementEntry);
+
+    let certificationIndex = 0;
+
+    function addCertificationEntry() {
+        const container = document.getElementById("certificationContainer");
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "border p-3 my-2 rounded";
+
+        wrapper.innerHTML = `
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="cert_title[]" placeholder="Certification Title" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="cert_issuer[]" placeholder="Issuing Organization">
+                </div>
+                <div class="col-md-6">
+                    <input type="month" class="form-control" name="cert_issue_date[]" placeholder="Date of Issuance">
+                </div>
+                <div class="col-md-6">
+                    <input type="month" class="form-control" name="cert_expiry_date[]" placeholder="Expiration Date (optional)">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="cert_id[]" placeholder="Certificate ID (optional)">
+                </div>
+                <div class="col-md-6">
+                    <input type="url" class="form-control" name="cert_url[]" placeholder="Certificate URL (optional)">
+                </div>
+                <div class="col-12">
+                    <div id="cert-editor-${certificationIndex}" style="height: 150px;"></div>
+                    <input type="hidden" name="cert_description[]">
+                </div>
+            </div>
+        `;
+
+        container.appendChild(wrapper);
+
+        const quill = new Quill(`#cert-editor-${certificationIndex}`, {
+            theme: 'snow',
+            placeholder: 'Certification details...',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'bullet' }, { 'list': 'ordered' }],
+                    ['clean']
+                ]
+            }
+        });
+
+        const descInput = wrapper.querySelector("input[name='cert_description[]']");
+        quill.on('text-change', () => {
+            descInput.value = quill.root.innerHTML;
+        });
+
+        certificationIndex++;
+    }
+
+    document.getElementById("addCertificationBtn").addEventListener("click", addCertificationEntry);
+    addCertificationEntry();
+
+    function addPortfolioEntry() {
+        const container = document.getElementById("portfolioContainer");
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "border p-3 my-2 rounded";
+
+        wrapper.innerHTML = `
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="portfolio_title[]" placeholder="Link Title (e.g., GitHub, Behance)" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="url" class="form-control" name="portfolio_link[]" placeholder="https://your-link.com" required>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(wrapper);
+    }
+
+    document.getElementById("addPortfolioBtn").addEventListener("click", addPortfolioEntry);
+    addPortfolioEntry();
+
+    const interestsContainer = document.getElementById("interestsContainer");
+    const addInterestBtn = document.getElementById("addInterestBtn");
+    const interestInput = document.getElementById("interestInput");
+
+    addInterestBtn.addEventListener("click", () => {
+        const interest = interestInput.value.trim();
+        if (!interest) return;
+
+        const div = document.createElement("div");
+        div.className = "input-group mb-2";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "form-control";
+        input.name = "interests[]";
+        input.value = interest;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "btn btn-outline-danger";
+        removeBtn.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+        removeBtn.onclick = () => div.remove();
+
+        div.appendChild(input);
+        div.appendChild(removeBtn);
+        interestsContainer.appendChild(div);
+
+        interestInput.value = "";
+    });
+
+    document.getElementById("generateResumeBtn").addEventListener("click", () => {
+        const preview = document.getElementById("resumePreview");
+        const downloadBtn = document.getElementById("downloadResumeBtn");
+
+        document.getElementById("sidebar-wrapper").style.display = "none";
+        document.getElementById("page-content-wrapper").style.display = "none";
+
+        // Personal Info
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const country = document.getElementById("country").value.trim();
+        const pincode = document.getElementById("pincode").value.trim();
+        const address = [city, country, pincode].filter(Boolean).join(", ");
+
+        // Profile
+        const profile = document.getElementById("profileText").value.trim();
+
+        // Experience
+        const experiences = Array.from(document.querySelectorAll('#experienceContainer > div')).map(entry => ({
+            jobTitle: entry.querySelector('input[name="designation[]"]').value.trim(),
+            org: entry.querySelector('input[name="employer[]"]').value.trim(),
+            from: entry.querySelector('input[name="start[]"]').value,
+            to: entry.querySelector('input[name="stop[]"]').value,
+            // desc: entry.querySelector('textarea[name="description[]"]').value.trim()
+        }));
+
+        // Skills (for summary)
+        const skills = Array.from(document.querySelectorAll('input[name="skills[]"]'))
+            .map(input => input.value.trim())
+            .filter(Boolean);
+
+        // Resume HTML (Styled as per the template)
+        preview.innerHTML = `
+        <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+            <div class="title text-center">
+                <h1>${name}</h1>
+                <h3>Fullstack Developer</h3>
+                <h4><a href="#">${email}</a></h4>
+                <hr />
+                <ul class="list-inline">
+                <li class="list-inline-item"><i class="devicon-html5-plain colored"></i></li>
+                <li class="list-inline-item"><i class="devicon-css3-plain colored"></i></li>
+                <li class="list-inline-item"><i class="devicon-javascript-plain colored"></i></li>
+                <li class="list-inline-item"><i class="devicon-python-plain colored"></i></li>
+                </ul>
+            </div>
+
+            <div class="summary">
+                <h2 class="text-center">Summary</h2>
+                <p>${profile}</p>
+                <div class="row">
+                ${[...Array(Math.ceil(skills.length / 3))].map((_, i) => `
+                    <div class="col-md-3 col-sm-3">
+                    ${skills.slice(i * 3, i * 3 + 3).map(skill => `<p>${skill}</p>`).join('')}
+                    </div>
+                `).join('')}
+                </div>
+            </div>
+
+            <div class="work-experience">
+                <h2 class="text-center">Work Experience</h2>
+                ${experiences.map(exp => `
+                <div class="row experience-title">
+                    <div class="col-md-9">
+                    <h3>${exp.org}</h3>
+                    <h4>${exp.jobTitle}</h4>
+                    </div>
+                    <div class="col-md-3">
+                    <h3>${exp.from} - ${exp.to}</h3>
+                    </div>
+                </div>
+                <div class="row experience-summary">
+                    <div class="col-md-12">
+                    <p>${exp.desc}</p>
+                    </div>
+                </div>
+                `).join('')}
+            </div>
+            </div>
+        </div>
+        </div>
+        `;
+
+        preview.style.display = "block";
+        downloadBtn.style.display = "inline-block";
+    });
+
+
+    // Download Resume as PDF
+    document.getElementById("downloadResumeBtn").addEventListener("click", () => {
+        window.print();
+    });
 });

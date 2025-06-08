@@ -91,3 +91,173 @@ body {
   font-size: 1.1rem;
   margin-left: 4px;
 }
+
+#interestsContainer .input-group {
+    gap: 8px;
+}
+
+input[type="text"]:hover,
+input[type="text"]:focus,
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.skillFields input[type="text"] {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Base Styles */
+body {
+  background: #1B1B25 !important;
+  color: #fff !important;
+  font-family: 'Josefin Sans', sans-serif;
+
+}
+
+/* Title Section */
+.title {
+  margin-top: 100px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.title a {
+  color: #DB4D57;
+  text-decoration: none;
+}
+
+.title a:hover {
+  font-weight: bold;
+}
+
+.title hr {
+  width: 75%;
+  border-color: #fff;
+  margin: 1rem auto;
+}
+
+/* Icon List */
+.list-inline {
+  padding: 0;
+  margin: 0;
+}
+
+.list-inline i {
+  font-size: 2rem;
+  margin: 10px;
+}
+
+/* Summary Section */
+.summary {
+  padding: 20px;
+}
+
+.summary h2 {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.summary p {
+  font-size: 1.6rem;
+  letter-spacing: .2rem;
+}
+
+.summary .col-md-3 p {
+  margin: 5px 0;
+}
+
+/* Experience Section */
+.work-experience {
+  padding: 20px;
+}
+
+.work-experience h2 {
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.experience-title {
+  margin-top: 50px;
+}
+
+.experience-summary {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.work-experience h3, 
+.work-experience h4, 
+.work-experience h5 {
+  margin: 0;
+}
+
+.work-experience p {
+  font-size: 1.6rem;
+  letter-spacing: .2rem;
+}
+
+.experience-summary ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.experience-summary ul li {
+  margin-bottom: 10px;
+}
+
+.my-4 {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+
+@media print {
+  @page {
+    margin: 0;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #1B1B25 !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .printable, .printable * {
+    visibility: visible;
+  }
+
+  .printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+  }
+}
+
+@page {
+  margin: 0;
+}
+

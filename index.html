@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="style.css"/>
     <!-- Quill CSS -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <!-- Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Devicon -->
+    <link href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+
     </head>
     <body>
         <div class="d-flex" id="wrapper">
@@ -18,6 +27,12 @@
                     <!-- Personal Details -->
                     <a href="#personalDetails" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Personal Details
+                        <i class="fa-solid fa-caret-down section-icon"></i>
+                    </a>
+
+                    <!-- Portfolio -->
+                    <a href="#portfolioSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
+                        Portfolio
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
                     
@@ -50,10 +65,22 @@
                         Projects
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
+                    
+                    <!-- Certifications -->
+                    <a href="#certificationSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
+                        Certifications
+                        <i class="fa-solid fa-caret-down section-icon"></i>
+                    </a>
 
                     <!-- Achievements -->
                     <a href="#achievementsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Achievements
+                        <i class="fa-solid fa-caret-down section-icon"></i>
+                    </a>
+
+                    <!-- Interests -->
+                    <a href="#interestSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
+                        Interests
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
                 </div>
@@ -96,14 +123,23 @@
                     </form>
                 </div>
 
+                <!-- Portfolio -->
+                <div class="collapse show mt-4" id="portfolioSection">
+                    <h4 class="mb-3">Portfolio</h4>
+                    <div id="portfolioContainer"></div>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="addPortfolioBtn">
+                        Add Portfolio Link
+                    </button>
+                </div>
+
                 <!-- Profile Section -->
                 <div class="section-header d-flex justify-content-between align-items-center mt-4"
                     data-bs-toggle="collapse" data-bs-target="#profileSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                <h4 class="mb-0">Profile</h4>
-                <i class="fa-solid fa-caret-down section-icon"></i>
+                    <h4 class="mb-0">Profile</h4>
+                    <i class="fa-solid fa-caret-down section-icon"></i>
                 </div>
                 <div class="collapse show mt-2" id="profileSection">
-                <textarea id="profileText" class="form-control" rows="4" placeholder="Write a short paragraph about yourself..."></textarea>
+                    <textarea id="profileText" class="form-control" rows="4" placeholder="Write a short paragraph about yourself..."></textarea>
                 </div>
 
                 <!-- Skills Section -->
@@ -152,6 +188,15 @@
                     <button type="button" class="btn btn-outline-primary mt-2" id="addProjectBtn">Add Project</button>
                 </div>
 
+                <!-- Certification -->
+                <div class="collapse show" id="certificationSection">
+                    <h4 class="mb-3">Certifications</h4>
+                    <div id="certificationContainer"></div>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="addCertificationBtn">
+                        Add Certification
+                    </button>
+                </div>
+
                 <!-- Achievements Section -->
                 <div class="section-header d-flex justify-content-between align-items-center mt-4"
                     data-bs-toggle="collapse" data-bs-target="#achievementsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
@@ -164,12 +209,29 @@
                     <button type="button" class="btn btn-outline-primary mt-2" id="addAchievementBtn">Add Achievement</button>
                 </div>
 
-                <div class="mt-4">
-                    <button class="btn btn-success">Generate Resume</button>
+                <!-- Interests -->
+                <div class="collapse show mt-4" id="interestSection">
+                    <h4 class="mb-3">Interests</h4>
+                    <div id="interestsContainer"></div>
+                    <div class="d-flex mt-2">
+                        <input type="text" class="form-control me-2" id="interestInput" placeholder="Enter an interest">
+                        <button class="btn btn-outline-primary" type="button" id="addInterestBtn">Add Interest</button>
+                    </div>
                 </div>
+
+                <div class="mt-4">
+                    <button id="generateResumeBtn" class="btn btn-success">Generate Resume</button>
+                </div>
+
+                
+                <!-- Button to download -->
+                <button id="downloadResumeBtn" class="btn btn-success" style="display:none;">Download as PDF</button>
             </div>
         </div>
-
+        <div id="resumePreview" class="p-4" style="display:none;"></div>
+    
+        <!-- To Generate PDF -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <!-- We'll use SortableJS (a lightweight drag-and-drop library) -->
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
         <!-- Quill JS -->

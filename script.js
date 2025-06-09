@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <input type="month" class="form-control" name="graduation_date[]" required>
+                    <input type="text" class="form-control" placeholder="Graduation Date (MM/YYYY)" name="grad_year[]" required>
                 </div>
                 <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="CGPA / Percentage" name="cgpa[]" required>
@@ -482,75 +482,282 @@ document.addEventListener("DOMContentLoaded", () => {
         const pincode = document.getElementById("pincode").value.trim();
         const address = [city, country, pincode].filter(Boolean).join(", ");
 
+        // Portfolio
+        const portfolioTitles = document.getElementsByName("portfolio_title[]");
+        const portfolioLinks = document.getElementsByName("portfolio_link[]");
+
+        let portfolioHTML = "";
+        for (let i = 0; i < portfolioTitles.length; i++) {
+            const title = portfolioTitles[i].value.trim();
+            const link = portfolioLinks[i].value.trim();
+            if (title && link) {
+                portfolioHTML += `<li><strong>${title}:</strong> <a href="${link}" target="_blank">${link}</a></li>`;
+            }
+        }
+
         // Profile
         const profile = document.getElementById("profileText").value.trim();
 
-        // Experience
-        const experiences = Array.from(document.querySelectorAll('#experienceContainer > div')).map(entry => ({
-            jobTitle: entry.querySelector('input[name="designation[]"]').value.trim(),
-            org: entry.querySelector('input[name="employer[]"]').value.trim(),
-            from: entry.querySelector('input[name="start[]"]').value,
-            to: entry.querySelector('input[name="stop[]"]').value,
-            // desc: entry.querySelector('textarea[name="description[]"]').value.trim()
-        }));
+        //Skills
+        const skillGroups = document.querySelectorAll(".skill-group");
+        let skillsHTML = "";
 
-        // Skills (for summary)
-        const skills = Array.from(document.querySelectorAll('input[name="skills[]"]'))
-            .map(input => input.value.trim())
-            .filter(Boolean);
+        skillGroups.forEach(group => {
+            const headerInput = group.querySelector('input[name="skill_group_headers[]"]');
+            const skillInputs = group.querySelectorAll('input[name="skills[]"]');
+
+            const header = headerInput?.value.trim();
+            const skills = Array.from(skillInputs)
+                .map(input => input.value.trim())
+                .filter(Boolean);
+
+            if (header && skills.length > 0) {
+                skillsHTML += `
+                    <div class="mb-3">
+                        <h5>${header}</h5>
+                        <ul class="mb-0">
+                            ${skills.map(skill => `<li>${skill}</li>`).join("")}
+                        </ul>
+                    </div>
+                `;
+            }
+        });
+
+
+        // Experience
+        const designations = document.getElementsByName("designation[]");
+        const employers = document.getElementsByName("employer[]");
+        const starts = document.getElementsByName("start[]");
+        const stops = document.getElementsByName("stop[]");
+        const descriptions = document.getElementsByName("description[]");
+
+        let experienceHTML = "";
+
+        for (let i = 0; i < designations.length; i++) {
+            const designation = designations[i].value.trim();
+            const employer = employers[i].value.trim();
+            const start = starts[i].value.trim();
+            const stop = stops[i].value.trim();
+            const description = descriptions[i].value.trim();
+
+            if (designation && employer && start) {
+                experienceHTML += `
+                    <div class="mb-3">
+                        <h5 class="mb-1">${designation} at ${employer}</h5>
+                        <p class="mb-1 text-muted">${start} - ${stop || "Present"}</p>
+                        <div>${description}</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Education
+        const institutions = document.getElementsByName("institution[]");
+        const degrees = document.getElementsByName("degree[]");
+        const years = document.getElementsByName("grad_year[]");
+        const scores = document.getElementsByName("cgpa[]");
+
+        let educationHTML = "";
+
+        for (let i = 0; i < institutions.length; i++) {
+            const institution = institutions[i].value.trim();
+            const degree = degrees[i].value.trim();
+            const rawDate = years[i].value.trim(); // format: MM/YYYY
+            const score = scores[i].value.trim();
+
+            // Optional: Format MM/YYYY to "Month Year"
+            let gradDate = "";
+            if (/^\d{2}\/\d{4}$/.test(rawDate)) {
+                const [monthPart, yearPart] = rawDate.split("/");
+                const monthName = new Date(`${yearPart}-${monthPart}-01`).toLocaleString('default', { month: 'long' });
+                gradDate = `${monthName} ${yearPart}`;
+            } else {
+                gradDate = rawDate; // fallback to raw value if format is off
+            }
+
+            if (institution && degree && rawDate) {
+                educationHTML += `
+                    <div class="mb-3">
+                        <h5 class="mb-1">${degree}</h5>
+                        <p class="mb-1 text-muted">${institution} | ${gradDate}</p>
+                        ${score ? `<p>Score: ${score}</p>` : ""}
+                    </div>
+                `;
+            }
+        }
+
+        //Projects 
+        const projectTitles = document.getElementsByName("project_title[]");
+        const projectYears = document.getElementsByName("project_year[]");
+        const projectDescriptions = document.getElementsByName("project_description[]");
+        const projectTechnologies = document.getElementsByName("project_technologies[]");
+
+        let projectsHTML = "";
+
+        for (let i = 0; i < projectTitles.length; i++) {
+            const title = projectTitles[i].value.trim();
+            const year = projectYears[i].value.trim();
+            const description = projectDescriptions[i].value.trim();
+            const tech = projectTechnologies[i].value.trim();
+
+            if (title || description) {
+                projectsHTML += `
+                    <div class="mb-3">
+                        <h5 class="mb-1">${title} ${year ? `<small class="text-muted">(${year})</small>` : ""}</h5>
+                        ${tech ? `<p><strong>Technologies:</strong> ${tech}</p>` : ""}
+                        ${description ? `<div>${description}</div>` : ""}
+                    </div>
+                `;
+            }
+        }
+        
+        // Certifications
+        const certTitles = document.getElementsByName("cert_title[]");
+        const certIssuers = document.getElementsByName("cert_issuer[]");
+        const certIssueDates = document.getElementsByName("cert_issue_date[]");
+        const certExpiryDates = document.getElementsByName("cert_expiry_date[]");
+        const certIDs = document.getElementsByName("cert_id[]");
+        const certURLs = document.getElementsByName("cert_url[]");
+        const certDescriptions = document.getElementsByName("cert_description[]");
+
+        let certificationsHTML = "";
+
+        for (let i = 0; i < certTitles.length; i++) {
+            const title = certTitles[i].value.trim();
+            const issuer = certIssuers[i].value.trim();
+            const issueDate = certIssueDates[i].value.trim();
+            const expiryDate = certExpiryDates[i].value.trim();
+            const certID = certIDs[i].value.trim();
+            const certURL = certURLs[i].value.trim();
+            const description = certDescriptions[i].value.trim();
+
+            if (title) {
+                certificationsHTML += `
+                    <div class="mb-3">
+                        <h5 class="mb-1">${title}</h5>
+                        ${issuer ? `<p><strong>Issuer:</strong> ${issuer}</p>` : ""}
+                        ${issueDate ? `<p><strong>Issued:</strong> ${issueDate}</p>` : ""}
+                        ${expiryDate ? `<p><strong>Expires:</strong> ${expiryDate}</p>` : ""}
+                        ${certID ? `<p><strong>Certificate ID:</strong> ${certID}</p>` : ""}
+                        ${certURL ? `<p><strong>URL:</strong> <a href="${certURL}" target="_blank">${certURL}</a></p>` : ""}
+                        ${description ? `<div>${description}</div>` : ""}
+                    </div>
+                `;
+            }
+        }
+
+        // Achievements
+        const achievementTitles = document.getElementsByName("achievement_title[]");
+        const achievementYears = document.getElementsByName("achievement_year[]");
+        const achievementDescriptions = document.getElementsByName("achievement_description[]");
+        const achievementContexts = document.getElementsByName("achievement_context[]");
+
+        let achievementsHTML = "";
+
+        for (let i = 0; i < achievementTitles.length; i++) {
+            const title = achievementTitles[i].value.trim();
+            const year = achievementYears[i].value.trim();
+            const desc = achievementDescriptions[i].value.trim();
+            const context = achievementContexts[i].value.trim();
+
+            if (title) {
+                achievementsHTML += `
+                    <div class="mb-3">
+                        <h5 class="mb-1">${title}</h5>
+                        ${year ? `<p><strong>Year:</strong> ${year}</p>` : ""}
+                        ${context ? `<p><strong>Context:</strong> ${context}</p>` : ""}
+                        ${desc ? `<div>${desc}</div>` : ""}
+                    </div>
+                `;
+            }
+        }
+        
+        // Interests
+        const interestBadges = document.querySelectorAll("#interestsContainer .badge");
+        let interests = [];
+
+        interestBadges.forEach(badge => {
+            const text = badge.textContent.replace("×", "").trim(); // remove delete '×' symbol
+            if (text) interests.push(text);
+        });
+
+        let interestsHTML = "";
+        if (interests.length) {
+            interestsHTML = `
+                <h4 class="mt-4">Interests</h4>
+                <p>${interests.join(", ")}</p>
+            `;
+        }
 
         // Resume HTML (Styled as per the template)
         preview.innerHTML = `
-        <div class="container">
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-            <div class="title text-center">
-                <h1>${name}</h1>
-                <h3>Fullstack Developer</h3>
-                <h4><a href="#">${email}</a></h4>
-                <hr />
-                <ul class="list-inline">
-                <li class="list-inline-item"><i class="devicon-html5-plain colored"></i></li>
-                <li class="list-inline-item"><i class="devicon-css3-plain colored"></i></li>
-                <li class="list-inline-item"><i class="devicon-javascript-plain colored"></i></li>
-                <li class="list-inline-item"><i class="devicon-python-plain colored"></i></li>
-                </ul>
-            </div>
+            <div class="container py-4 px-3">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h2 class="mb-1">${name}</h2>
+                    <p class="mb-0">${email} | ${phone}</p>
+                    <p class="mb-0">${address}</p>
+                </div>
 
-            <div class="summary">
-                <h2 class="text-center">Summary</h2>
-                <p>${profile}</p>
-                <div class="row">
-                ${[...Array(Math.ceil(skills.length / 3))].map((_, i) => `
-                    <div class="col-md-3 col-sm-3">
-                    ${skills.slice(i * 3, i * 3 + 3).map(skill => `<p>${skill}</p>`).join('')}
-                    </div>
-                `).join('')}
-                </div>
-            </div>
+                <!-- Profile -->
+                ${profile ? `
+                <div class="mb-4">
+                    <h4>Profile</h4>
+                    <p>${profile}</p>
+                </div>` : ''}
 
-            <div class="work-experience">
-                <h2 class="text-center">Work Experience</h2>
-                ${experiences.map(exp => `
-                <div class="row experience-title">
-                    <div class="col-md-9">
-                    <h3>${exp.org}</h3>
-                    <h4>${exp.jobTitle}</h4>
-                    </div>
-                    <div class="col-md-3">
-                    <h3>${exp.from} - ${exp.to}</h3>
-                    </div>
-                </div>
-                <div class="row experience-summary">
-                    <div class="col-md-12">
-                    <p>${exp.desc}</p>
-                    </div>
-                </div>
-                `).join('')}
+                <!-- Skills -->
+                ${skillsHTML ? `
+                <div class="mb-4">
+                    <h4>Skills</h4>
+                    ${skillsHTML}
+                </div>` : ''}
+
+                <!-- Experience -->
+                ${experienceHTML ? `
+                <div class="mb-4">
+                    <h4>Experience</h4>
+                    ${experienceHTML}
+                </div>` : ''}
+
+                <!-- Education -->
+                ${educationHTML ? `
+                <div class="mb-4">
+                    <h4>Education</h4>
+                    ${educationHTML}
+                </div>` : ''}
+
+                <!-- Projects -->
+                ${projectsHTML ? `
+                <div class="mb-4">
+                    <h4>Projects</h4>
+                    ${projectsHTML}
+                </div>` : ''}
+
+                <!-- Certifications -->
+                ${certificationsHTML ? `
+                <div class="mb-4">
+                    <h4>Certifications</h4>
+                    ${certificationsHTML}
+                </div>` : ''}
+
+                <!-- Achievements -->
+                ${achievementsHTML ? `
+                <div class="mb-4">
+                    <h4>Achievements</h4>
+                    ${achievementsHTML}
+                </div>` : ''}
+
+                <!-- Portfolio -->
+                ${portfolioHTML ? `
+                <div class="mb-4">
+                    <h4>Portfolio</h4>
+                    <ul>${portfolioHTML}</ul>
+                </div>` : ''}
+
+                <!-- Interests -->
+                ${interestsHTML}
             </div>
-            </div>
-        </div>
-        </div>
         `;
 
         preview.style.display = "block";

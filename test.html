@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Resume Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <style>
+        /* Custom styles inspired by the user's request */
+        body {
+            background-color: #111827; /* Tailwind gray-900 */
+            color: #E5E7EB; /* Tailwind gray-200 */
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Styling for the form area */
+        .form-container {
+            background-color: #1F2937; /* Tailwind gray-800 */
+        }
+        
+        .form-container h2 {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        
+        input, textarea, select {
+            background-color: #374151; /* Tailwind gray-700 */
+            border-color: #4B5563; /* Tailwind gray-600 */
+        }
+
+        /* Styling for the preview area */
+        #preview {
+            font-family: 'Josefin Sans', sans-serif;
+            background-color: #1B1B25;
+            color: #fff;
+        }
+
+        #preview h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        
+        #preview h3 {
+            font-size: 1.5rem;
+            color: #9CA3AF; /* gray-400 */
+        }
+
+        #preview a {
+            color: #60A5FA; /* blue-400 */
+            text-decoration: none;
+        }
+
+        #preview a:hover {
+            text-decoration: underline;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 600;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            margin-top: 2rem;
+            border-bottom: 1px solid #4B5563; /* gray-600 */
+        }
+        
+        .experience-item, .education-item, .project-item, .certification-item {
+             margin-bottom: 1.5rem;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .item-header h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .item-header h5 {
+            font-size: 1.1rem;
+            color: #D1D5DB; /* gray-300 */
+        }
+
+        .item-date {
+            color: #9CA3AF; /* gray-400 */
+            font-style: italic;
+        }
+        
+        .skills-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+             gap: 0.75rem;
+             text-align: center;
+        }
+
+        .skills-grid p {
+            background-color: #374151; /* gray-700 */
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Form Section -->
+        <div class="form-container p-6 rounded-xl shadow-lg">
+            <h1 class="text-3xl font-bold mb-6 text-center text-white">Resume Builder</h1>
+            <form id="resume-form" class="space-y-4">
+
+                <!-- Personal Details -->
+                <div class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Personal Details</h2>
+                    <input type="text" id="name" placeholder="Full Name" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <input type="text" id="title" placeholder="Your Title (e.g., Fullstack Developer)" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="email" id="email" placeholder="Email Address" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <input type="tel" id="phone" placeholder="Phone Number" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="address" placeholder="City, Country" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                 <!-- Portfolio -->
+                <div id="portfolio-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Portfolio Links</h2>
+                    <div class="space-y-3" id="portfolio-list">
+                        <div class="portfolio-item flex gap-2">
+                            <input type="text" placeholder="Link Name (e.g., LinkedIn)" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-name">
+                            <input type="url" placeholder="URL" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-link">
+                        </div>
+                    </div>
+                    <button type="button" id="add-portfolio" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Link</button>
+                </div>
+
+
+                <!-- Profile -->
+                 <div class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-2 text-white">Profile (Summary)</h2>
+                    <textarea id="profile" placeholder="A brief summary about yourself..." rows="4" class="w-full p-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+
+                <!-- Skills -->
+                <div id="skills-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Skills</h2>
+                    <div class="space-y-3" id="skills-list">
+                         <input type="text" placeholder="e.g., JavaScript" class="w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 skill-item">
+                    </div>
+                    <button type="button" id="add-skill" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Skill</button>
+                </div>
+
+                <!-- Experience -->
+                <div id="experience-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Work Experience</h2>
+                    <div id="experience-list" class="space-y-4">
+                        <!-- JS will add experience blocks here -->
+                    </div>
+                    <button type="button" id="add-experience" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Experience</button>
+                </div>
+
+                <!-- Education -->
+                <div id="education-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Education</h2>
+                    <div id="education-list" class="space-y-4">
+                        <!-- JS will add education blocks here -->
+                    </div>
+                    <button type="button" id="add-education" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Education</button>
+                </div>
+                
+                <!-- Other sections can be added similarly -->
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">Generate Resume</button>
+            </form>
+            <button id="download-pdf" class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300" style="display: none;">Download as PDF</button>
+        </div>
+
+        <!-- Preview Section -->
+        <div id="preview-container" class="bg-gray-800 p-6 rounded-xl shadow-lg">
+            <div id="preview" class="w-full h-full overflow-auto">
+                <!-- Resume preview will be injected here -->
+                <div class="text-center text-gray-400 flex items-center justify-center h-full">
+                    <p>Your resume preview will appear here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('resume-form');
+            const preview = document.getElementById('preview');
+            const downloadBtn = document.getElementById('download-pdf');
+
+            // --- Dynamic Field Adders ---
+
+            // Add Skill
+            document.getElementById('add-skill').addEventListener('click', () => {
+                const list = document.getElementById('skills-list');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'e.g., JavaScript';
+                input.className = 'w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 skill-item';
+                list.appendChild(input);
+            });
+
+            // Add Portfolio Link
+            document.getElementById('add-portfolio').addEventListener('click', () => {
+                const list = document.getElementById('portfolio-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'portfolio-item flex gap-2';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Link Name (e.g., LinkedIn)" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-name">
+                    <input type="url" placeholder="URL" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-link">
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Experience
+            document.getElementById('add-experience').addEventListener('click', () => {
+                const list = document.getElementById('experience-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 border border-gray-600 rounded-lg experience-item-form';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Job Title" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-title">
+                    <input type="text" placeholder="Company" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-company">
+                    <div class="flex gap-2 mb-2">
+                        <input type="text" placeholder="Start Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-start">
+                        <input type="text" placeholder="End Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-end">
+                    </div>
+                    <textarea placeholder="Description of your role and achievements..." rows="3" class="w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-desc"></textarea>
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Education
+            document.getElementById('add-education').addEventListener('click', () => {
+                const list = document.getElementById('education-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 border border-gray-600 rounded-lg education-item-form';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Degree or Certificate" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-degree">
+                    <input type="text" placeholder="Institution" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-institution">
+                     <div class="flex gap-2 mb-2">
+                        <input type="text" placeholder="Start Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-start">
+                        <input type="text" placeholder="End Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-end">
+                    </div>
+                `;
+                list.appendChild(newItem);
+            });
+            
+            // --- Form Submission and Preview Generation ---
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // --- Gather Data from Form ---
+                const name = document.getElementById('name').value.trim();
+                const title = document.getElementById('title').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const profile = document.getElementById('profile').value.trim();
+
+                const portfolioItems = Array.from(document.querySelectorAll('.portfolio-item')).map(item => ({
+                    name: item.querySelector('.portfolio-name').value.trim(),
+                    link: item.querySelector('.portfolio-link').value.trim()
+                })).filter(p => p.name && p.link);
+
+                const skills = Array.from(document.querySelectorAll('.skill-item')).map(input => input.value.trim()).filter(Boolean);
+
+                const experience = Array.from(document.querySelectorAll('.experience-item-form')).map(item => ({
+                    title: item.querySelector('.exp-title').value.trim(),
+                    company: item.querySelector('.exp-company').value.trim(),
+                    startDate: item.querySelector('.exp-start').value.trim(),
+                    endDate: item.querySelector('.exp-end').value.trim(),
+                    description: item.querySelector('.exp-desc').value.trim(),
+                })).filter(exp => exp.title);
+
+                const education = Array.from(document.querySelectorAll('.education-item-form')).map(item => ({
+                    degree: item.querySelector('.edu-degree').value.trim(),
+                    institution: item.querySelector('.edu-institution').value.trim(),
+                    startDate: item.querySelector('.edu-start').value.trim(),
+                    endDate: item.querySelector('.edu-end').value.trim(),
+                })).filter(edu => edu.degree);
+
+                // --- Generate HTML for Sections ---
+
+                const portfolioHTML = portfolioItems.length > 0 ? portfolioItems.map(p => `<a href="${p.link}" target="_blank">${p.name}</a>`).join('<span class="mx-2 text-gray-500">|</span>') : '';
+                
+                const skillsHTML = skills.length > 0 ? `<div class="skills-grid">${skills.map(skill => `<p>${skill}</p>`).join('')}</div>` : '';
+
+                const experienceHTML = experience.length > 0 ? experience.map(exp => `
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <h4>${exp.title}</h4>
+                                <h5>${exp.company}</h5>
+                            </div>
+                            <p class="item-date">${exp.startDate} - ${exp.endDate}</p>
+                        </div>
+                        <p class="mt-2 text-gray-300">${exp.description.replace(/\n/g, '<br>')}</p>
+                    </div>
+                `).join('') : '';
+
+                const educationHTML = education.length > 0 ? education.map(edu => `
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div>
+                                <h4>${edu.degree}</h4>
+                                <h5>${edu.institution}</h5>
+                            </div>
+                           <p class="item-date">${edu.startDate} - ${edu.endDate}</p>
+                        </div>
+                    </div>
+                `).join('') : '';
+
+                // --- Assemble the Final Resume HTML ---
+                preview.innerHTML = `
+                    <div class="p-4 md:p-8">
+                        <!-- Header -->
+                        <div class="text-center mb-4">
+                            <h1>${name}</h1>
+                            ${title ? `<h3>${title}</h3>` : ''}
+                            <p class="mt-3 text-gray-400">
+                                ${email}
+                                ${phone ? `<span class="mx-2 text-gray-500">|</span>${phone}` : ''}
+                                ${address ? `<span class="mx-2 text-gray-500">|</span>${address}`:''}
+                            </p>
+                             <div class="mt-3">
+                                ${portfolioHTML}
+                            </div>
+                        </div>
+
+                        <hr class="border-t-2 border-gray-700 my-6">
+
+                        <!-- Profile Section -->
+                        ${profile ? `
+                        <div>
+                            <h2 class="section-title">Summary</h2>
+                            <p class="text-center leading-relaxed">${profile}</p>
+                        </div>` : ''}
+
+                        <!-- Skills Section -->
+                        ${skillsHTML ? `
+                        <div>
+                            <h2 class="section-title">Skills</h2>
+                            ${skillsHTML}
+                        </div>` : ''}
+
+                        <!-- Experience Section -->
+                        ${experienceHTML ? `
+                        <div>
+                            <h2 class="section-title">Work Experience</h2>
+                            ${experienceHTML}
+                        </div>` : ''}
+
+                        <!-- Education Section -->
+                        ${educationHTML ? `
+                        <div>
+                            <h2 class="section-title">Education</h2>
+                            ${educationHTML}
+                        </div>` : ''}
+                    </div>
+                `;
+
+                preview.style.display = "block";
+                downloadBtn.style.display = "block";
+            });
+            
+            // --- PDF Download Functionality ---
+            downloadBtn.addEventListener('click', () => {
+                const resumeContent = document.getElementById('preview');
+                const opt = {
+                    margin:       0.5,
+                    filename:     'resume.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, backgroundColor: '#1B1B25' },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                // Use a clone of the element for PDF generation to avoid display issues
+                html2pdf().from(resumeContent.cloneNode(true)).set(opt).save();
+            });
+
+        });
+    </script>
+</body>
+</html>

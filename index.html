@@ -79,7 +79,7 @@
                     </a>
 
                     <!-- Interests -->
-                    <a href="#interestSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
+                    <a href="#interestsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
                         Interests
                         <i class="fa-solid fa-caret-down section-icon"></i>
                     </a>
@@ -210,14 +210,16 @@
                     <button type="button" class="btn btn-outline-primary mt-2" id="addAchievementBtn">Add Achievement</button>
                 </div>
 
-                <!-- Interests -->
-                <div class="collapse show mt-4" id="interestSection">
-                    <h4 class="mb-3">Interests</h4>
+                <!-- Interests Section -->
+                <div class="section-header d-flex justify-content-between align-items-center mt-4"
+                    data-bs-toggle="collapse" data-bs-target="#interestsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
+                    <h4 class="mb-0">Interests</h4>
+                    <i class="fa-solid fa-caret-down section-icon"></i>
+                </div>
+
+                <div class="collapse show mt-3" id="interestsSection">
                     <div id="interestsContainer"></div>
-                    <div class="d-flex mt-2">
-                        <input type="text" class="form-control me-2" id="interestInput" placeholder="Enter an interest">
-                        <button class="btn btn-outline-primary" type="button" id="addInterestBtn">Add Interest</button>
-                    </div>
+                    <button type="button" id="addInterestBtn" class="btn btn-outline-primary mt-2">Add Interest</button>
                 </div>
 
                 <div class="mt-4">

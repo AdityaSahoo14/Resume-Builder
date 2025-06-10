@@ -435,23 +435,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("addPortfolioBtn").addEventListener("click", addPortfolioEntry);
     addPortfolioEntry();
-
+    
     const interestsContainer = document.getElementById("interestsContainer");
     const addInterestBtn = document.getElementById("addInterestBtn");
-    const interestInput = document.getElementById("interestInput");
 
-    addInterestBtn.addEventListener("click", () => {
-        const interest = interestInput.value.trim();
-        if (!interest) return;
-
+    function addInterest(value = "") {
         const div = document.createElement("div");
         div.className = "input-group mb-2";
 
         const input = document.createElement("input");
         input.type = "text";
         input.className = "form-control";
+        input.placeholder = "Enter an interest";
         input.name = "interests[]";
-        input.value = interest;
+        input.value = value;
 
         const removeBtn = document.createElement("button");
         removeBtn.type = "button";
@@ -462,9 +459,15 @@ document.addEventListener("DOMContentLoaded", () => {
         div.appendChild(input);
         div.appendChild(removeBtn);
         interestsContainer.appendChild(div);
+    }
 
-        interestInput.value = "";
+    // Add interest on button click
+    addInterestBtn.addEventListener("click", () => {
+        addInterest();
     });
+
+    // Add one interest input by default on load
+    addInterest();
 
     document.getElementById("generateResumeBtn").addEventListener("click", () => {
         const preview = document.getElementById("resumePreview");
@@ -523,7 +526,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-
         // Experience
         const designations = document.getElementsByName("designation[]");
         const employers = document.getElementsByName("employer[]");
@@ -571,7 +573,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const [monthPart, yearPart] = rawDate.split("/");
                 const monthName = new Date(`${yearPart}-${monthPart}-01`).toLocaleString('default', { month: 'long' });
                 gradDate = `${monthName} ${yearPart}`;
-            } else {
+            }
+            else {
                 gradDate = rawDate; // fallback to raw value if format is off
             }
 
@@ -673,57 +676,69 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         // Interests
-        const interestBadges = document.querySelectorAll("#interestsContainer .badge");
-        let interests = [];
-
-        interestBadges.forEach(badge => {
-            const text = badge.textContent.replace("×", "").trim(); // remove delete '×' symbol
-            if (text) interests.push(text);
-        });
-
+        const interestInputs = document.querySelectorAll('input[name="interests[]"]');
         let interestsHTML = "";
-        if (interests.length) {
-            interestsHTML = `
-                <h4 class="mt-4">Interests</h4>
-                <p>${interests.join(", ")}</p>
+
+        const interests = Array.from(interestInputs)
+            .map(input => input.value.trim())
+            .filter(Boolean);
+
+        if (interests.length > 0) {
+            interestsHTML += `
+                <div class="mb-3">
+                    <h5>Interests</h5>
+                    <ul class="mb-0">
+                        ${interests.map(interest => `<li>${interest}</li>`).join("")}
+                    </ul>
+                </div>
             `;
         }
 
         // Resume HTML (Styled as per the template)
+        // --- Assemble the Final Resume HTML ---
         preview.innerHTML = `
-            <div class="container py-4 px-3">
+            <div class="p-4 md:p-8">
                 <!-- Header -->
                 <div class="text-center mb-4">
-                    <h2 class="mb-1">${name}</h2>
-                    <p class="mb-0">${email} | ${phone}</p>
-                    <p class="mb-0">${address}</p>
+                    <h1>${name}</h1>
+                    ${title ? `<h3>${title}</h3>` : ''}
+                    <p class="mt-3 text-gray-400">
+                        ${email}
+                        ${phone ? `<span class="mx-2 text-gray-500">|</span>${phone}` : ''}
+                        ${address ? `<span class="mx-2 text-gray-500">|</span>${address}`:''}
+                    </p>
+                    <div class="mt-3">
+                        ${portfolioHTML}
+                    </div>
                 </div>
 
-                <!-- Profile -->
+                <hr class="border-t-2 border-gray-700 my-6">
+
+                <!-- Profile Section -->
                 ${profile ? `
-                <div class="mb-4">
-                    <h4>Profile</h4>
-                    <p>${profile}</p>
+                <div>
+                    <h2 class="section-title">Summary</h2>
+                    <p class="text-center leading-relaxed">${profile}</p>
                 </div>` : ''}
 
-                <!-- Skills -->
+                <!-- Skills Section -->
                 ${skillsHTML ? `
-                <div class="mb-4">
-                    <h4>Skills</h4>
+                <div>
+                    <h2 class="section-title">Skills</h2>
                     ${skillsHTML}
                 </div>` : ''}
 
-                <!-- Experience -->
+                <!-- Experience Section -->
                 ${experienceHTML ? `
-                <div class="mb-4">
-                    <h4>Experience</h4>
+                <div>
+                    <h2 class="section-title">Work Experience</h2>
                     ${experienceHTML}
                 </div>` : ''}
 
-                <!-- Education -->
+                <!-- Education Section -->
                 ${educationHTML ? `
-                <div class="mb-4">
-                    <h4>Education</h4>
+                <div>
+                    <h2 class="section-title">Education</h2>
                     ${educationHTML}
                 </div>` : ''}
 

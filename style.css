@@ -1,0 +1,127 @@
+        /* Custom styles inspired by the user's request */
+        body {
+            background-color: #111827; 
+            color: #E5E7EB;
+            font-family: 'Inter', sans-serif;
+        }
+
+        p{
+            color: #000000;
+            font-size: 11px;
+        }
+
+        /* Styling for the form area */
+        .form-container {
+            background-color: #1F2937;
+        }
+        
+        .form-container h2 {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        
+        input, textarea, select {
+            background-color: #374151;
+            border-color: #4B5563;
+        }
+
+        /* Styling for the preview area */
+        #preview {
+            font-family: 'Josefin Sans', sans-serif;
+            background-color: #fff;
+            color: #000000;
+        }
+
+        #preview h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+        
+        #preview h3 {
+            font-size: 1rem;
+            margin-top: -8px;
+            text-align: left;
+        }
+
+        #preview a {
+            color: #60A5FA;
+            text-decoration: none;
+        }
+
+        #preview a:hover {
+            text-decoration: underline;
+        }
+        
+        .section-title {
+            text-align: justify;
+            font-size: 16px;
+            font-weight: 650;
+            margin-top: 1.2rem;
+            margin-bottom: 0.1rem;
+        }
+        
+        .experience-item, .education-item, .project-item, .certification-item , .achievement-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .item-header h4 {
+            font-size: 12px;
+            font-weight: 650;
+        }
+        
+        .item-header h5 {
+            font-size: 12px;
+            color: #000000;
+        }
+
+        .item-date {
+            color: #000000;
+            font-style: italic;
+        }
+        
+        .skills-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        }
+
+        .certification-item a {
+            color: #60A5FA;
+        }
+
+        .certification-item a:hover {
+            text-decoration: underline;
+            color: #3B82F6;
+        }
+
+        #preview > div {
+            padding: 0 1rem;
+        }
+
+        .project-item p,
+        .achievement-item p,
+        .certification-item p,
+        .experience-item p {
+            line-height: 1.6;
+        }
+
+        .portfoilio-hr{
+            margin-top: 0 !important;
+            margin-bottom: -0.5rem !important;
+        }
+
+        .portfolio-seperator {
+            margin-left: 1px !important;
+            margin-right: 2px !important;
+        }
+
+        .portfolio-contact {
+            text-align: justify;
+        }

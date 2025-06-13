@@ -17,6 +17,11 @@
             font-family: 'Inter', sans-serif;
         }
 
+        p{
+            color: #000000;
+            font-size: 11px;
+        }
+
         /* Styling for the form area */
         .form-container {
             background-color: #1F2937;
@@ -62,12 +67,8 @@
         
         .section-title {
             text-align: center;
-            font-size: 1.75rem;
-            font-weight: 600;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            margin-top: 2rem;
-            border-bottom: 1px solid #4B5563;
+            font-size: 16px;
+            font-weight: 650;
         }
         
         .experience-item, .education-item, .project-item, .certification-item , .achievement-item {
@@ -82,12 +83,12 @@
         }
 
         .item-header h4 {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 650;
         }
         
         .item-header h5 {
-            font-size: 1.1rem;
+            font-size: 12px;
             color: #000000;
         }
 
@@ -98,15 +99,7 @@
         
         .skills-grid {
              display: grid;
-             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-             gap: 0.75rem;
-             text-align: center;
-        }
-
-        .skills-grid p {
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
+             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
         }
 
         .certification-item a {
@@ -127,6 +120,20 @@
         .certification-item p,
         .experience-item p {
             line-height: 1.6;
+        }
+
+        .portfoilio-hr{
+            margin-top: 0 !important;
+            margin-bottom: -0.5rem !important;
+        }
+
+        .portfolio-seperator {
+            margin-left: 1px !important;
+            margin-right: 2px !important;
+        }
+
+        .portfolio-contact {
+            text-align: justify;
         }
 
     </style>
@@ -418,7 +425,7 @@
 
                 // --- Generate HTML for Sections ---
 
-                const portfolioHTML = portfolioItems.length > 0 ? portfolioItems.map(p => `<a href="${p.link}" target="_blank">${p.name}</a>`).join('<span class="mx-2 text-gray-500">|</span>') : '';
+                const portfolioHTML = portfolioItems.length > 0 ? portfolioItems.map(p => `<a href="${p.link}" target="_blank">${p.name}</a>`).join('<span class="mx-2 portfolio-seperator">|</span>') : '';
                 
                 const skillsHTML = skills.length > 0 ? `<div class="skills-grid">${skills.map(skill => `<p>${skill}</p>`).join('')}</div>` : '';
 
@@ -431,7 +438,7 @@
                             </div>
                             <p class="item-date">${exp.startDate} - ${exp.endDate}</p>
                         </div>
-                        <p class="mt-2 text-gray-300">${exp.description.replace(/\n/g, '<br>')}</p>
+                        <p class="mt-2">${exp.description.replace(/\n/g, '<br>')}</p>
                     </div>
                 `).join('') : '';
 
@@ -453,7 +460,7 @@
                             <h4>${proj.title}</h4>
                             <p class="item-date">${proj.year}</p>
                         </div>
-                        <p class="text-gray-300 mt-1">${proj.description}</p>
+                        <p class="mt-1">${proj.description}</p>
                         ${proj.tech ? `<p class="mt-1"><span class="text-blue-400">Tech:</span> ${proj.tech}</p>` : ''}
                     </div>
                 `).join('') : '';
@@ -475,7 +482,7 @@
                             <h4>${ach.title}</h4>
                             <p class="item-date">${ach.year}</p>
                         </div>
-                        <p class="text-gray-300 mt-1">${ach.description}</p>
+                        <p class="mt-1">${ach.description}</p>
                     </div>
                 `).join('') : '';
 
@@ -489,30 +496,33 @@
                             <h1>${name}</h1>
                             ${title ? `<h3>${title}</h3>` : ''}
                             
-                            <hr class="border-t-2 border-gray-700 my-6">
+                            <hr class="border-t-2 border-gray-700 my-6 portfoilio-hr">
                             
-                            <p class="mt-3 text-gray-400">
+                            <p class="mt-3 portfolio-contact">
                                 ${email}
-                                ${phone ? `<span class="mx-2 text-gray-500">|</span>${phone}` : ''}
-                                ${address ? `<span class="mx-2 text-gray-500">|</span>${address}`:''}
+                                ${phone ? `<span class="mx-2 portfolio-seperator">|</span>${phone}` : ''}
+                                ${address ? `<span class="mx-2 portfolio-seperator">|</span>${address}`:''}
+                                ${portfolioItems.length ? `<span class="mx-2 portfolio-seperator">|</span>${portfolioHTML}` : ''}
                             </p>
                         </div>
                       
-                        <hr class="border-t-2 border-gray-700 my-6">
                         
-                        <!-- Portfolio Section -->
+                        <!-- *************************************
+                            Portfolio Section
+                            <hr class="border-t-2 border-gray-700 my-6">
 
                         <div class="mt-3">
                             ${portfolioHTML}
+                            <hr class="border-t-2 border-gray-700 my-6">
                         </div>
-
-                        <hr class="border-t-2 border-gray-700 my-6">
+                        ********************************************** -->
+                        
                             
                         <!-- Profile Section -->
                         ${profile ? `
                         <div>
                             <h2 class="section-title">Summary</h2>
-                            <p class="text-center leading-relaxed">${profile}</p>
+                            <p class="text-justify leading-relaxed">${profile}</p>
                         </div>` : ''}
 
                         <!-- Skills Section -->

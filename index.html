@@ -1,247 +1,602 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Builder</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="style.css"/>
-    <!-- Quill CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
-    <!-- Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <style>
+        /* Custom styles inspired by the user's request */
+        body {
+            background-color: #111827; 
+            color: #E5E7EB;
+            font-family: 'Inter', sans-serif;
+        }
 
-    <!-- Devicon -->
-    <link href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" rel="stylesheet">
+        p{
+            color: #000000;
+            font-size: 11px;
+        }
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+        /* Styling for the form area */
+        .form-container {
+            background-color: #1F2937;
+        }
+        
+        .form-container h2 {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        
+        input, textarea, select {
+            background-color: #374151;
+            border-color: #4B5563;
+        }
 
-    </head>
-    <body>
-        <div class="d-flex" id="wrapper">
-            <!-- Sidebar -->
-            <div class="bg-light border-end" id="sidebar-wrapper">
-                <div class="sidebar-heading">Resume Sections</div>
-                <div class="list-group list-group-flush">
-                    <!-- Personal Details -->
-                    <a href="#personalDetails" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Personal Details
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
+        /* Styling for the preview area */
+        #preview {
+            font-family: 'Josefin Sans', sans-serif;
+            background-color: #fff;
+            color: #000000;
+        }
 
-                    <!-- Portfolio -->
-                    <a href="#portfolioSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Portfolio
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
-                    
-                    <!-- Profile -->
-                    <a href="#profileSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Profile
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
-                    
-                    <!-- Skill -->
-                    <a href="#skillsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Skills
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
-                    
-                    <!-- Experience -->
-                    <a href="#experienceSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Experience
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
+        #preview h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+        
+        #preview h3 {
+            font-size: 1rem;
+            margin-top: -8px;
+            text-align: left;
+        }
 
-                    <!-- Education -->
-                    <a href="#educationSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Education
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
+        #preview a {
+            color: #60A5FA;
+            text-decoration: none;
+        }
 
-                    <!-- Projects -->
-                    <a href="#projectsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Projects
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
-                    
-                    <!-- Certifications -->
-                    <a href="#certificationSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Certifications
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
+        #preview a:hover {
+            text-decoration: underline;
+        }
+        
+        .section-title {
+            text-align: justify;
+            font-size: 16px;
+            font-weight: 650;
+            margin-top: 1.2rem;
+            margin-bottom: 0.1rem;
+        }
+        
+        .experience-item, .education-item, .project-item, .certification-item , .achievement-item {
+            margin-bottom: 1.5rem;
+        }
 
-                    <!-- Achievements -->
-                    <a href="#achievementsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Achievements
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
 
-                    <!-- Interests -->
-                    <a href="#interestsSection" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="true">
-                        Interests
-                        <i class="fa-solid fa-caret-down section-icon"></i>
-                    </a>
-                </div>
-            </div>
+        .item-header h4 {
+            font-size: 12px;
+            font-weight: 650;
+        }
+        
+        .item-header h5 {
+            font-size: 12px;
+            color: #000000;
+        }
 
-            <!-- Page content -->
-            <div id="page-content-wrapper" class="container py-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <i class="fa-solid fa-bars fs-3" id="toggleSidebar" style="cursor: pointer;"></i>
-                    <h1 class="mb-0">Resume Builder</h1>
-                </div>
+        .item-date {
+            color: #000000;
+            font-style: italic;
+        }
+        
+        .skills-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        }
+
+        .certification-item a {
+            color: #60A5FA;
+        }
+
+        .certification-item a:hover {
+            text-decoration: underline;
+            color: #3B82F6;
+        }
+
+        #preview > div {
+            padding: 0 1rem;
+        }
+
+        .project-item p,
+        .achievement-item p,
+        .certification-item p,
+        .experience-item p {
+            line-height: 1.6;
+        }
+
+        .portfoilio-hr{
+            margin-top: 0 !important;
+            margin-bottom: -0.5rem !important;
+        }
+
+        .portfolio-seperator {
+            margin-left: 1px !important;
+            margin-right: 2px !important;
+        }
+
+        .portfolio-contact {
+            text-align: justify;
+        }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Form Section -->
+        <div class="form-container p-6 rounded-xl shadow-lg">
+            <h1 class="text-3xl font-bold mb-6 text-center text-white">Resume Builder</h1>
+            <form id="resume-form" class="space-y-4">
+
                 <!-- Personal Details -->
-                <div class="section-header d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#personalDetails" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                <h4 class="mb-0">Personal Details</h4>
-                <i class="fa-solid fa-caret-down section-icon"></i>
+                <div class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Personal Details</h2>
+                    <input type="text" id="name" placeholder="Full Name" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <input type="text" id="title" placeholder="Your Title (e.g., Fullstack Developer)" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="email" id="email" placeholder="Email Address" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <input type="tel" id="phone" placeholder="Phone Number" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="address" placeholder="City, Country" class="w-full p-3 mb-4 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
-                <div class="collapse show" id="personalDetails">
-                    <form id="personal-form">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Full Name" id="name" required />
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="City" id="city" />
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Country" id="country" />
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Pincode" id="pincode" />
-                        </div>
-                        <div class="col-md-6">
-                            <input type="tel" class="form-control" placeholder="Phone Number" id="phone" required />
-                        </div>
-                        <div class="col-md-6">
-                            <input type="email" class="form-control" placeholder="Email" id="email" required />
+
+                 <!-- Portfolio -->
+                <div id="portfolio-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Portfolio Links</h2>
+                    <div class="space-y-3" id="portfolio-list">
+                        <div class="portfolio-item flex gap-2">
+                            <input type="text" placeholder="Link Name (e.g., LinkedIn)" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-name">
+                            <input type="url" placeholder="URL" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-link">
                         </div>
                     </div>
-                    </form>
+                    <button type="button" id="add-portfolio" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Link</button>
                 </div>
-
-                <!-- Portfolio -->
-                <div class="collapse show mt-4" id="portfolioSection">
-                    <h4 class="mb-3">Portfolio</h4>
-                    <div id="portfolioContainer"></div>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="addPortfolioBtn">
-                        Add Portfolio Link
-                    </button>
-                </div>
-
-                <!-- Profile Section -->
-                <div class="section-header d-flex justify-content-between align-items-center mt-4"
-                    data-bs-toggle="collapse" data-bs-target="#profileSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                    <h4 class="mb-0">Profile</h4>
-                    <i class="fa-solid fa-caret-down section-icon"></i>
-                </div>
-                <div class="collapse show mt-2" id="profileSection">
-                    <textarea id="profileText" class="form-control" rows="4" placeholder="Write a short paragraph about yourself..."></textarea>
-                </div>
-
-                <!-- Skills Section -->
-                <div class="section-header d-flex justify-content-between align-items-center mt-4"
-                    data-bs-toggle="collapse" data-bs-target="#skillsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                    <h4 class="mb-0">Skills</h4>
-                    <i class="fa-solid fa-caret-down section-icon"></i>
-                </div>
-
-                <div class="collapse show mt-3" id="skillsSection">
-                    <div id="skillsContainer" class="sortable-skills-group"></div>
-                    <button type="button" id="addSkillHeaderBtn" class="btn btn-outline-primary mt-2">Add Header</button>
-                </div>
-
-                <!-- Experience Section -->
-                <div class="section-header d-flex justify-content-between align-items-center mt-4"
-                    data-bs-toggle="collapse" data-bs-target="#experienceSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                    <h4 class="mb-0">Experience</h4>
-                    <i class="fa-solid fa-caret-down section-icon"></i>
-                </div>
-                <div class="collapse show mt-4" id="experienceSection">
-                    <div id="experienceContainer"></div>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="addExperienceBtn">Add Experience</button>
-                </div>
-
-                <!-- Education Section -->
-                <div class="section-header d-flex justify-content-between align-items-center mt-4"
-                    data-bs-toggle="collapse" data-bs-target="#educationSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                    <h4 class="mb-0">Education</h4>
-                    <i class="fa-solid fa-caret-down section-icon"></i>
-                </div>
-
-                <div class="collapse show mt-4" id="educationSection">
-                    <div id="educationContainer"></div>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="addEducationBtn">Add Education</button>
-                </div>
-                                
-                <!-- Projects Section -->
-                <div class="section-header d-flex justify-content-between align-items-center mt-4"
-                    data-bs-toggle="collapse" data-bs-target="#projectsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                    <h4 class="mb-0">Projects</h4>
-                    <i class="fa-solid fa-caret-down section-icon"></i>
-                </div>
-
-                <div class="collapse show mt-4" id="projectsSection">
-                    <div id="projectsContainer"></div>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="addProjectBtn">Add Project</button>
-                </div>
-
-                <!-- Certification -->
-                <div class="collapse show" id="certificationSection">
-                    <h4 class="mb-3">Certifications</h4>
-                    <div id="certificationContainer"></div>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="addCertificationBtn">
-                        Add Certification
-                    </button>
-                </div>
-
-                <!-- Achievements Section -->
-                <div class="section-header d-flex justify-content-between align-items-center mt-4"
-                    data-bs-toggle="collapse" data-bs-target="#achievementsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                    <h4 class="mb-0">Achievements</h4>
-                    <i class="fa-solid fa-caret-down section-icon"></i>
-                </div>
-
-                <div class="collapse show mt-4" id="achievementsSection">
-                    <div id="achievementsContainer"></div>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="addAchievementBtn">Add Achievement</button>
-                </div>
-
-                <!-- Interests Section -->
-                <div class="section-header d-flex justify-content-between align-items-center mt-4"
-                    data-bs-toggle="collapse" data-bs-target="#interestsSection" aria-expanded="true" role="button" style="cursor:pointer; user-select:none;">
-                    <h4 class="mb-0">Interests</h4>
-                    <i class="fa-solid fa-caret-down section-icon"></i>
-                </div>
-
-                <div class="collapse show mt-3" id="interestsSection">
-                    <div id="interestsContainer"></div>
-                    <button type="button" id="addInterestBtn" class="btn btn-outline-primary mt-2">Add Interest</button>
-                </div>
-
-                <div class="mt-4">
-                    <button id="generateResumeBtn" class="btn btn-success">Generate Resume</button>
-                </div>
-
                 
-                <!-- Button to download -->
-                <button id="downloadResumeBtn" class="btn btn-success" style="display:none;">Download as PDF</button>
+                <!-- Profile -->
+                 <div class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-2 text-white">Profile (Summary)</h2>
+                    <textarea id="profile" placeholder="A brief summary about yourself..." rows="4" class="w-full p-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+
+                <!-- Skills -->
+                <div id="skills-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Skills</h2>
+                    <div class="space-y-3" id="skills-list">
+                         <input type="text" placeholder="e.g., JavaScript" class="w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 skill-item">
+                    </div>
+                    <button type="button" id="add-skill" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Skill</button>
+                </div>
+
+                <!-- Experience -->
+                <div id="experience-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Work Experience</h2>
+                    <div id="experience-list" class="space-y-4">
+                        <!-- JS will add experience blocks here -->
+                    </div>
+                    <button type="button" id="add-experience" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Experience</button>
+                </div>
+
+                <!-- Education -->
+                <div id="education-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Education</h2>
+                    <div id="education-list" class="space-y-4">
+                        <!-- JS will add education blocks here -->
+                    </div>
+                    <button type="button" id="add-education" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Education</button>
+                </div>
+                
+                <!-- Projects -->
+                <div id="projects-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Projects</h2>
+                    <div id="projects-list" class="space-y-4">
+                        <!-- JS will add project blocks here -->
+                    </div>
+                    <button type="button" id="add-project" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Project</button>
+                </div>
+
+                <!-- Certifications -->
+                <div id="certifications-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Certifications</h2>
+                    <div id="certifications-list" class="space-y-4">
+                        <!-- JS will add certification blocks here -->
+                    </div>
+                    <button type="button" id="add-certification" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Certification</button>
+                </div>
+
+                <!-- Achievements -->
+                <div id="achievements-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Achievements</h2>
+                    <div id="achievements-list" class="space-y-4">
+                        <!-- JS will add achievement blocks here -->
+                    </div>
+                    <button type="button" id="add-achievement" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Achievement</button>
+                </div>
+
+                <!-- Interests -->
+                <div id="interests-section" class="p-4 border border-gray-700 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Interests</h2>
+                    <div class="space-y-3" id="interests-list">
+                        <!-- No default input here -->
+                    </div>
+                    <button type="button" id="add-interest" class="mt-3 text-blue-400 hover:text-blue-300">+ Add Interest</button>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">Generate Resume</button>
+            </form>
+            <button id="download-pdf" class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300" style="display: none;">Download as PDF</button>
+        </div>
+
+        <!-- Preview Section -->
+        <div id="preview-container" class="bg-gray-800 p-6 rounded-xl shadow-lg">
+            <div id="preview" class="w-full h-full overflow-auto">
+                <!-- Resume preview will be injected here -->
+                <div class="text-center text-gray-400 flex items-center justify-center h-full">
+                    <p>Your resume preview will appear here.</p>
+                </div>
             </div>
         </div>
-        <div id="resumePreview" class="p-4" style="display:none;"></div>
-    
-        <!-- To Generate PDF -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <!-- We'll use SortableJS (a lightweight drag-and-drop library) -->
-        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-        <!-- Quill JS -->
-        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-        <script src="https://kit.fontawesome.com/d9363b728c.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="script.js"></script>
-        
-    </body>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('resume-form');
+            const preview = document.getElementById('preview');
+            const downloadBtn = document.getElementById('download-pdf');
+
+            // --- Dynamic Field Adders ---
+
+            // Add Skill
+            document.getElementById('add-skill').addEventListener('click', () => {
+                const list = document.getElementById('skills-list');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'e.g., JavaScript';
+                input.className = 'w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 skill-item';
+                list.appendChild(input);
+            });
+
+            // Add Portfolio Link
+            document.getElementById('add-portfolio').addEventListener('click', () => {
+                const list = document.getElementById('portfolio-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'portfolio-item flex gap-2';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Link Name (e.g., LinkedIn)" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-name">
+                    <input type="url" placeholder="URL" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 portfolio-link">
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Experience
+            document.getElementById('add-experience').addEventListener('click', () => {
+                const list = document.getElementById('experience-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 border border-gray-600 rounded-lg experience-item-form';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Job Title" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-title">
+                    <input type="text" placeholder="Company" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-company">
+                    <div class="flex gap-2 mb-2">
+                        <input type="text" placeholder="Start Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-start">
+                        <input type="text" placeholder="End Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-end">
+                    </div>
+                    <textarea placeholder="Description of your role and achievements..." rows="3" class="w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 exp-desc"></textarea>
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Education
+            document.getElementById('add-education').addEventListener('click', () => {
+                const list = document.getElementById('education-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 border border-gray-600 rounded-lg education-item-form';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Degree or Certificate" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-degree">
+                    <input type="text" placeholder="Institution" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-institution">
+                     <div class="flex gap-2 mb-2">
+                        <input type="text" placeholder="Start Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-start">
+                        <input type="text" placeholder="End Date" class="w-1/2 p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 edu-end">
+                    </div>
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Project
+            document.getElementById('add-project').addEventListener('click', () => {
+                const list = document.getElementById('projects-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 border border-gray-600 rounded-lg project-item-form';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Project Title" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 project-title">
+                    <input type="text" placeholder="Year" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 project-year">
+                    <textarea placeholder="Project Description" rows="2" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 project-description"></textarea>
+                    <input type="text" placeholder="Technologies Used (comma separated)" class="w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 project-tech">
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Certification
+            document.getElementById('add-certification').addEventListener('click', () => {
+                const list = document.getElementById('certifications-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 border border-gray-600 rounded-lg certification-item-form';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Certificate Title" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cert-title">
+                    <input type="text" placeholder="Issuing Organization" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cert-org">
+                    <input type="text" placeholder="Date Achieved" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cert-date">
+                    <input type="url" placeholder="Verification Link" class="w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cert-link">
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Achievement
+            document.getElementById('add-achievement').addEventListener('click', () => {
+                const list = document.getElementById('achievements-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'p-3 border border-gray-600 rounded-lg achievement-item-form';
+                newItem.innerHTML = `
+                    <input type="text" placeholder="Achievement Title" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ach-title">
+                    <input type="text" placeholder="Year" class="w-full p-2 mb-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ach-year">
+                    <textarea placeholder="Description" rows="2" class="w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ach-description"></textarea>
+                `;
+                list.appendChild(newItem);
+            });
+
+            // Add Interest (like skills)
+            document.getElementById('add-interest').addEventListener('click', () => {
+                const list = document.getElementById('interests-list');
+                const newInput = document.createElement('input');
+                newInput.type = 'text';
+                newInput.placeholder = 'e.g., Photography, Football';
+                newInput.className = 'w-full p-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 interest-item';
+                list.appendChild(newInput);
+            });
+            
+            // --- Form Submission and Preview Generation ---
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // --- Gather Data from Form ---
+                const name = document.getElementById('name').value.trim();
+                const title = document.getElementById('title').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const profile = document.getElementById('profile').value.trim();
+
+                const portfolioItems = Array.from(document.querySelectorAll('.portfolio-item')).map(item => ({
+                    name: item.querySelector('.portfolio-name').value.trim(),
+                    link: item.querySelector('.portfolio-link').value.trim()
+                })).filter(p => p.name && p.link);
+
+                const skills = Array.from(document.querySelectorAll('.skill-item')).map(input => input.value.trim()).filter(Boolean);
+
+                const experience = Array.from(document.querySelectorAll('.experience-item-form')).map(item => ({
+                    title: item.querySelector('.exp-title').value.trim(),
+                    company: item.querySelector('.exp-company').value.trim(),
+                    startDate: item.querySelector('.exp-start').value.trim(),
+                    endDate: item.querySelector('.exp-end').value.trim(),
+                    description: item.querySelector('.exp-desc').value.trim(),
+                })).filter(exp => exp.title);
+
+                const education = Array.from(document.querySelectorAll('.education-item-form')).map(item => ({
+                    degree: item.querySelector('.edu-degree').value.trim(),
+                    institution: item.querySelector('.edu-institution').value.trim(),
+                    startDate: item.querySelector('.edu-start').value.trim(),
+                    endDate: item.querySelector('.edu-end').value.trim(),
+                })).filter(edu => edu.degree);
+
+                const projects = Array.from(document.querySelectorAll('.project-item-form')).map(item => ({
+                    title: item.querySelector('.project-title').value.trim(),
+                    year: item.querySelector('.project-year').value.trim(),
+                    description: item.querySelector('.project-description').value.trim(),
+                    tech: item.querySelector('.project-tech').value.trim()
+                })).filter(proj => proj.title);
+
+                const certifications = Array.from(document.querySelectorAll('.certification-item-form')).map(item => ({
+                    title: item.querySelector('.cert-title').value.trim(),
+                    org: item.querySelector('.cert-org').value.trim(),
+                    date: item.querySelector('.cert-date').value.trim(),
+                    link: item.querySelector('.cert-link').value.trim()
+                })).filter(cert => cert.title);
+
+                const achievements = Array.from(document.querySelectorAll('.achievement-item-form')).map(item => ({
+                    title: item.querySelector('.ach-title').value.trim(),
+                    year: item.querySelector('.ach-year').value.trim(),
+                    description: item.querySelector('.ach-description').value.trim()
+                })).filter(ach => ach.title);
+
+                const interests = Array.from(document.querySelectorAll('.interest-item')).map(input => input.value.trim()).filter(Boolean);
+
+                // --- Generate HTML for Sections ---
+
+                const portfolioHTML = portfolioItems.length > 0 ? portfolioItems.map(p => `<a href="${p.link}" target="_blank">${p.name}</a>`).join('<span class="mx-2 portfolio-seperator">|</span>') : '';
+                
+                const skillsHTML = skills.length > 0 ? `<div class="skills-grid">${skills.map(skill => `<p>${skill}</p>`).join('')}</div>` : '';
+
+                const experienceHTML = experience.length > 0 ? experience.map(exp => `
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <h4>${exp.title}</h4>
+                                <h5>${exp.company}</h5>
+                            </div>
+                            <p class="item-date">${exp.startDate} - ${exp.endDate}</p>
+                        </div>
+                        <p class="mt-2">${exp.description.replace(/\n/g, '<br>')}</p>
+                    </div>
+                `).join('') : '';
+
+                const educationHTML = education.length > 0 ? education.map(edu => `
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div>
+                                <h4>${edu.degree}</h4>
+                                <h5>${edu.institution}</h5>
+                            </div>
+                           <p class="item-date">${edu.startDate} - ${edu.endDate}</p>
+                        </div>
+                    </div>
+                `).join('') : '';
+
+                const projectsHTML = projects.length > 0 ? projects.map(proj => `
+                    <div class="project-item">
+                        <div class="item-header">
+                            <h4>${proj.title}</h4>
+                            <p class="item-date">${proj.year}</p>
+                        </div>
+                        <p class="mt-1">${proj.description}</p>
+                        ${proj.tech ? `<p class="mt-1"><span class="text-blue-400">Tech:</span> ${proj.tech}</p>` : ''}
+                    </div>
+                `).join('') : '';
+
+                const certificationsHTML = certifications.length > 0 ? certifications.map(cert => `
+                    <div class="certification-item">
+                        <div class="item-header">
+                            <h4>${cert.title}</h4>
+                            <h5>${cert.org}</h5>
+                        </div>
+                        <p class="item-date">${cert.date}</p>
+                        ${cert.link ? `<p class="text-blue-400"><a href="${cert.link}" target="_blank">${cert.link}</a></p>` : ''}
+                    </div>
+                `).join('') : '';
+
+                const achievementsHTML = achievements.length > 0 ? achievements.map(ach => `
+                    <div class="achievement-item">
+                        <div class="item-header">
+                            <h4>${ach.title}</h4>
+                            <p class="item-date">${ach.year}</p>
+                        </div>
+                        <p class="mt-1">${ach.description}</p>
+                    </div>
+                `).join('') : '';
+
+                const interestsHTML = interests.length > 0 ? `<div class="skills-grid">${interests.map(interest => `<p>${interest}</p>`).join('')}</div>` : '';
+
+                // --- Assemble the Final Resume HTML ---
+                preview.innerHTML = `
+                    <div class="p-4 md:p-8">
+                        <!-- Header -->
+                        <div class="text-center mb-4">
+                            <h1>${name}</h1>
+                            ${title ? `<h3>${title}</h3>` : ''}
+                            
+                            <hr class="border-t-2 border-gray-700 my-6 portfoilio-hr">
+                            
+                            <p class="mt-3 portfolio-contact">
+                                ${email}
+                                ${phone ? `<span class="mx-2 portfolio-seperator">|</span>${phone}` : ''}
+                                ${address ? `<span class="mx-2 portfolio-seperator">|</span>${address}`:''}
+                                ${portfolioItems.length ? `<span class="mx-2 portfolio-seperator">|</span>${portfolioHTML}` : ''}
+                            </p>
+                        </div>
+                      
+                        
+                        <!-- *************************************
+                            Portfolio Section
+                            <hr class="border-t-2 border-gray-700 my-6">
+
+                        <div class="mt-3">
+                            ${portfolioHTML}
+                            <hr class="border-t-2 border-gray-700 my-6">
+                        </div>
+                        ********************************************** -->
+                        
+                            
+                        <!-- Profile Section -->
+                        ${profile ? `
+                        <div>
+                            <h2 class="section-title">Summary</h2>
+                            <p class="text-justify leading-relaxed">${profile}</p>
+                        </div>` : ''}
+
+                        <!-- Skills Section -->
+                        ${skillsHTML ? `
+                        <div>
+                            <h2 class="section-title">Skills</h2>
+                            ${skillsHTML}
+                        </div>` : ''}
+
+                        <!-- Experience Section -->
+                        ${experienceHTML ? `
+                        <div>
+                            <h2 class="section-title">Work Experience</h2>
+                            ${experienceHTML}
+                        </div>` : ''}
+
+                        <!-- Education Section -->
+                        ${educationHTML ? `
+                        <div>
+                            <h2 class="section-title">Education</h2>
+                            ${educationHTML}
+                        </div>` : ''}
+
+                        <!-- Projects Section -->
+                        ${projectsHTML ? `
+                        <div>
+                            <h2 class="section-title">Projects</h2>
+                            ${projectsHTML}
+                        </div>` : ''}
+
+                        <!-- Certifications Section -->
+                        ${certificationsHTML ? `
+                        <div>
+                            <h2 class="section-title">Certifications</h2>
+                            ${certificationsHTML}
+                        </div>` : ''}
+
+                        <!-- Achievements Section -->
+                        ${achievementsHTML ? `
+                        <div>
+                            <h2 class="section-title">Achievements</h2>
+                            ${achievementsHTML}
+                        </div>` : ''}
+
+                        <!-- Interests Section -->
+                        ${interestsHTML ? `
+                        <div>
+                            <h2 class="section-title">Interests</h2>
+                            ${interestsHTML}
+                        </div>` : ''}
+                    </div>
+                `;
+
+                preview.style.display = "block";
+                downloadBtn.style.display = "block";
+            });
+            
+            // --- PDF Download Functionality ---
+            downloadBtn.addEventListener('click', () => {
+                const resumeContent = document.getElementById('preview');
+                const opt = {
+                    margin:       0.5,
+                    filename:     'resume.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, backgroundColor: '#fff' },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                // Use a clone of the element for PDF generation to avoid display issues
+                html2pdf().from(resumeContent.cloneNode(true)).set(opt).save();
+            });
+
+        });
+    </script>
+</body>
 </html>

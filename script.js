@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <h1>${name}</h1>
                     ${title ? `<h3>${title}</h3>` : ''}
                     
-                    <hr class="border-t-2 border-gray-700 my-6 portfoilio-hr">
+                    <hr class="border-t-2 border-gray-700 my-6 portfolio-hr">
                     
                     <p class="mt-3 portfolio-contact">
                         ${email}

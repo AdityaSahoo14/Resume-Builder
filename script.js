@@ -327,29 +327,28 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- PDF Download Functionality ---
     downloadBtn.addEventListener('click', () => {
         const resumeContent = document.getElementById('preview');
-        
-        // Get name and format it
-        const nameInput = document.getElementById('name').value.trim() || 'Resume';
-        
-        // Format name to 'Aditya-Sahoo-Resume'
-        const formattedName = nameInput
-            .replace(/[^a-zA-Z\s]/g, '')         // Remove special characters
-            .replace(/\s+/g, '-')                // Replace spaces with dashes
-            .replace(/-+/g, '-')                 // Collapse multiple dashes
-            .replace(/^-|-$/g, '');              // Trim starting/ending dashes
-        
-        const filename = `${formattedName}.pdf`;
+        const { jsPDF } = window.jspdf;  // ✅ Fix ReferenceError
 
-        const opt = {
-            margin:       0.5,
-            filename:     filename,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, backgroundColor: '#fff' },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
+        const doc = new jsPDF('p', 'pt', 'a4');
 
-        html2pdf().from(resumeContent.cloneNode(true)).set(opt).save();
+        doc.html(resumeContent, {
+            callback: function (doc) {
+                const nameInput = document.getElementById('name').value.trim() || 'Resume';
+                const fileName = nameInput
+                    .replace(/[^a-zA-Z0-9\s]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-|-$/g, '') + '-Resume.pdf';
+
+                doc.save(fileName);
+            },
+            margin: [20, 20, 20, 20],
+            autoPaging: 'text',
+            html2canvas: {
+                scale: 1,
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            }
+        });
     });
-
-
 });

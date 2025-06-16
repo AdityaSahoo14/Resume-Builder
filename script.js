@@ -327,15 +327,29 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- PDF Download Functionality ---
     downloadBtn.addEventListener('click', () => {
         const resumeContent = document.getElementById('preview');
+        
+        // Get name and format it
+        const nameInput = document.getElementById('name').value.trim() || 'Resume';
+        
+        // Format name to 'Aditya-Sahoo-Resume'
+        const formattedName = nameInput
+            .replace(/[^a-zA-Z\s]/g, '')         // Remove special characters
+            .replace(/\s+/g, '-')                // Replace spaces with dashes
+            .replace(/-+/g, '-')                 // Collapse multiple dashes
+            .replace(/^-|-$/g, '');              // Trim starting/ending dashes
+        
+        const filename = `${formattedName}.pdf`;
+
         const opt = {
             margin:       0.5,
-            filename:     'resume.pdf',
+            filename:     filename,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, backgroundColor: '#fff' },
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
-        // Use a clone of the element for PDF generation to avoid display issues
+
         html2pdf().from(resumeContent.cloneNode(true)).set(opt).save();
     });
+
 
 });
